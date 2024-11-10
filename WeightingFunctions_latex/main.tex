@@ -4,26 +4,26 @@
 \include{packages}
 \usepackage[affil-it]{authblk}
 
-\title{\textbf{Weighting function design for $\mathcal{H}_\infty$ synthesis}}
+\title{\textbf{$\mathcal{H}_\infty$ synthesis: Weighting functions design }}
 
 \author{Carlo Migliaccio
 %\\Master's Degree in Computer Engineering\\
 %Politecnico di Torino}
 }
-\date{}
+\date{November 2024}
 \begin{document}
     \maketitle
 
     \section{Introduction}
-    In the framework of $\mathcal{H}_\infty$ optimization for designing a control system, \textbf{weighting functions} are used in order to approximate by using rational functions some constraints in the frequency domain on the sensitivity function $S(s)$ and the complementary sensitivity function $T(s)$. Such constraints are derived by suitably traducing given specifications for the feedback control system. Roughly speaking at the end of the design we want to impose: 
+    In the framework of $\mathcal{H}_\infty$ optimization for designing a control system, \textbf{weighting functions} are used in order to approximate by using rational functions some constraints in the frequency domain on the sensitivity function $S(s)$ and the complementary sensitivity function $T(s)$. Such constraints are derived by suitably traducing given specifications for the feedback control system. Roughly speaking at the end of the design (if we want to obtain robust stability and nominal performances) we want to impose: 
 \begin{equation}
         \Bigg\Vert 
         \begin{aligned}
             W_1 S_n\\
             W_2 T_n
         \end{aligned}
-        \Bigg\Vert_\infty < 1, \quad W_1(s)=W_S(s), \quad 
-        W_2(s)=\max(W_T(s), W_U(s))
+        \Bigg\Vert_\infty < 1, \quad W_1=W_S, \quad 
+        W_2=\max(W_T, W_U)
     \end{equation}
     Where $S_n$, $T_n$ are related to the \textit{nominal model}.
 
@@ -110,7 +110,7 @@
 
     \begin{figure}\label{fig: type2_1}
         \centering
-        \includegraphics[scale=0.7]{Ws_type2_1.png}
+        \includegraphics[scale=0.7]{img/Ws_type2_1.png}
         \caption{$W_S^{-1}(s)$, system-type 2}
     \end{figure}
 
