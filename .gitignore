@@ -1,0 +1,9 @@
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.gz
+WeightingFunctions_latex/Ws_sol1.pdf
+WeightingFunctions_latex/Ws_sol2.pdf
+*.out
