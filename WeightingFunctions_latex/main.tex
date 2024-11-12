@@ -106,20 +106,16 @@
     \section{Weighting function $W_S^{-1}(s)$ ($\nu+p=2$)}
     Whether from the requirement translation comes up that $\nu+p=2$, then the red dashed line and $S^{II}$ at LF\footnote{
         From now on LF $\to$ Low Frequency
-    } are not parallel anymore. Different things can be done according to the way the frequency $\omega^{*}=\frac{1}{\vert S^{*}(0) \vert}$ is located. Two examples are showed below: in the first we use a zero to reach the prototype second order, in the second we use a pole and at the end a zero.
-
-    \begin{figure}\label{fig: type2_1}
-        \centering
-        \includegraphics[scale=0.7]{img/Ws_type2_1.png}
-        \caption{$W_S^{-1}(s)$, system-type 2}
-    \end{figure}
+    } are not parallel anymore. 
 
     \begin{figure}[h]\label{fig: type2_2}
         \centering
         \includegraphics[scale=0.8]{img/Ws_type2_2.png}
         \caption{$W_S^{-1}(s)$, system-type 2}
     \end{figure}
-    The shape for $W_S^{-1}(s)$ for the two cases is the same, what is different is where (in the frequency domain) we place the poles and zeros.
+
+    \noindent
+    The shape for $W_S^{-1}(s)$ in this case is:
     {\large{
         \begin{equation}
             W_S^{-1}(s) = a{s^{2}} \frac{
@@ -131,9 +127,7 @@
             }
         \end{equation}
     }}
-
-    In particular in Figure (\ref{fig: type2_1}), a zero is placed at $z$ followed by a complex conjugate pair of poles, at the end we solve the equation passing throug the limit to $\infty$ in order to place $p$. 
-    Finally, in Figure (\ref{fig: type2_2}) the role of $z$ and $p$ are swapped, since $S^{II}(s)$ is achieved starting from the bottom of the red dashed line.
+    The parameter $a$ is chosen according to the same principle as before. Moreover, around the intersection point between $s^2{S^*(0)}$ we place a pole at the frequency $p$, then a complex conjugate pair is added in order to model the 'bump' around $\omega_n$, in order to obtain a slope of 0 dB/dec a zero at the frequency $z$ is needed. The zero is chosen imposing that the condition (\ref{eq:Spo_limit}) is met.
     
     \begin{comment}
     \section{Weighting function $W_S^{-1}(s)$ ($\nu+p=0$)}
@@ -228,7 +222,6 @@
         \caption{Multiplicative Uncertainty Interval (block diagram)}
     \end{figure}
 
-    \newpage
 
     \subsection{Obtaining a nominal plant given the PUI}
     Before going on the description of the method by which a $W_U(s)$ is obtained, we have to deal with an issue which is directed linked to our problems: given a plant described by a transfer function in which some parameters enters and are described by the Parameter Uncertainty Intervals (PUI), \textbf{how can we obtain a nominal model for the plant under analysis?} \\
