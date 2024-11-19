@@ -158,7 +158,11 @@
     \begin{equation}
         W_T^{-1}(s) = \frac{T_{po}}{{(1+\frac{2\zeta}{\omega_T}s+\frac{s^2}{\omega_T^2})}}
     \end{equation}
-    The parameter $\omega_T$ is chosen by trial and error so that the $W_T^{-1}(s)$ could perfectly pass for the corner imposed by the pair ($\omega_s$, $M_T^{HF}$). 
+    The parameter $\omega_T$ is chosen by using the following equation:
+    \begin{equation}
+        \omega_T=\omega_s 10^{\frac{M_{T,dB}^{HF}-T_{po,dB}}{40}}
+    \end{equation} 
+    so that the $W_T^{-1}(s)$ could perfectly pass for the corner imposed by the pair ($\omega_s$, $M_T^{HF}$). 
     An example is reported in the following figure.
 
     \begin{figure}[h]
