@@ -265,6 +265,20 @@
         \caption{Transfer functions cloud and $W_U(s)$}
     \end{figure}
 
+    \section{Weighting function modifications for $\mathcal{H}_\infty$ approach}
+
+    \subsection{Modify $W_1$}
+    \begin{equation}
+        W_{1,mod}=W_1\frac{s^{\nu+p}}{(s+\lambda^*)^{\nu+p}}, 
+        \quad \lambda^*=0.01\cdot\omega_c
+    \end{equation}
+
+    \subsection{Modify $W_2$}
+    \begin{equation}
+        W_{2,mod}=\frac{1}{T_{po}}
+    \end{equation}
+    where $T_{po}$ is the peak retrieved during the requirements translation of $\hat{s}$. After you use \texttt{linmod}, you append the zeros through the command \texttt{sderiv(M,<channel>, [1/wnt 1])}.
+
 
  
 \end{document}
