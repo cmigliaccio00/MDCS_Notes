@@ -19,8 +19,8 @@
 \maketitle
 
 \section{Structured uncertainty}
-Dealing with \textbf{structured uncertainty} and the analysis of feedback control systems affected by it we are going to consider the \textit{general control configuration} depicted in the figure below.
-Here $z_\Delta$ and $w_\Delta$ are the so-called \textit{uncertainty channels}, which in turn are the signals connecting the \textbf{uncertainty sources} with the known part of the feedback system. On the other hand the signals $z_p$ and $w_p$ are chosen in order to satisfy \textbf{performance requirements} from which the name \textbf{performance channel}. In the following we deal with mainly with \textbf{parametric uncertainty}.
+Dealing with \textbf{structured uncertainty} and the analysis of feedback control systems affected by it, we are going to consider the \textit{general control configuration} depicted in the figure below.
+Here $z_\Delta$ and $w_\Delta$ are the so-called \textit{uncertainty channels}, which in turn are the signals connecting the \textbf{uncertainty sources} with the known part of the feedback control system. On the other hand the signals $z_p$ and $w_p$ are chosen in order to satisfy \textbf{performance requirements} from which the name \textbf{performance channel}. In the following we deal with mainly with \textbf{parametric uncertainty}.
 
 
 \begin{multicols}{2}
@@ -51,7 +51,7 @@ In the analysis of stability and performances by using the $\mu$-analysis we wil
     \item \textbf{Complex full matrix} perturbations $\Delta_i(s)\in\mathbb{C}^{m,m}$, $\Vert \Delta_i \Vert_\infty\le1$;
     \item \textbf{Repeated real scalar} perturbations $\Delta_i I_r$, where $I_r$ is an $r\times{r}$ identity matrix, and $\Delta_i\in\mathbb{R}$, $\Delta_i\le{1}$ 
 \end{itemize}
-In order to perform a computer-aided $\mu$-analysis, how we will see we use the command \texttt{mu} that among all of the parameters, take as input a matrix called \texttt{deltaset}. The main objective of such a matrix is \textit{describing the blocks of \ref{eq:Delta_blocks}}, the block diagonal matrix we mentioned in term of: (i) type, (ii) dimensions, (iii) number of independent locations in which the uncertainty itself appears. By using a summarizing table, we mention the principal pattern we can find in analyzing our feedback control systems. 
+In order to perform a computer-aided $\mu$-analysis, how we will see we use the command \texttt{mu} that among all of the parameters, take as input a matrix called \texttt{deltaset}. The main objective of such a matrix is \textit{describing the blocks of \Cref{eq:Delta_blocks}} ( the block diagonal matrix we mentioned) in term of: (i) type, (ii) dimensions, (iii) number of independent locations in which the uncertainty itself appears. By using a summarizing table, we mention the principal pattern we can find in analyzing our feedback control systems. 
 
 \begin{table}[h!]
     \centering
@@ -71,7 +71,7 @@ In order to perform a computer-aided $\mu$-analysis, how we will see we use the 
     \label{tab:deltaset}
 \end{table}
 \noindent
-Wheter in the feedback control system there are $U$ uncertainty sources the final will be such that \texttt{deltaset}$\in\mathbb{R}^{U,2}$.
+Wheter in the feedback control system there are $U$ uncertainty sources the final matrix will be such that \texttt{deltaset} $\in\mathbb{R}^{U,2}$.
 In the following sections we are going to do some examples which will clarify what is the structure of the \texttt{deltaset} matrix according to the structure of the uncertain plant $G_p(s)$.
 The models can be considered for the uncertainty are the following, given the generic parameter $k$: 
 
@@ -94,7 +94,7 @@ The models can be considered for the uncertainty are the following, given the ge
 \subsection{Fundamental bricks for structured uncertainty}
 Going on to analyze the structure of our uncertain system we can find in the transfer function some fundamental bricks that put all together will give us the description through block diagrams of the uncertain plant. \textsf{Some aspects are presented in details for the first example while they are not repeated for the following ones which are using exactly the same steps.}
 
-\subsubsection{Real Pole in \texttt{zpk} form}
+\subsubsection{Real Pole in zpk form}
 
 \subsubsection*{Example 1 (pole in the feedback path)}
 Given the following transfer function for an uncertain plant 
@@ -261,5 +261,79 @@ No other comments are needed  for modeling $p$ since it is a simple uncertain pa
 
 
 \subsubsection{Complex conjugate poles}
+Given the following transfer function for an uncertain plant
+\begin{equation}
+    G_p(s)=\frac{k\omega_n^2}{s^2+2\zeta\omega_n{s}+\omega_n^2}\quad
+    \underline{k}\le {k} \le \overline{k}, \quad
+    \underline{\omega}_n\le {\omega_n} \le \overline{\omega}_n
+\end{equation}
+Here it is useful to apply the properties of the \textit{Laplace transform} in order to pass into a state-space description. In particular we know, by definition, that given a certain transfer function $G_p(s)$ it is defined as
+\begin{align}
+    &G_p(s)=\frac{y(s)}{u(s)} \iff y(s) (s^2+2\zeta\omega_n{s}+\omega_n^2)=u(s) \ k\omega_n^2 \iff \\
+    &\frac{1}{\omega_n^2}\ddot{y}(t)+\frac{2\zeta}{\omega_n}\dot{y}(t)+y(t)=k{u(t)}\label{eq:diff_eq}
+\end{align}
+We can retrieve from the \textit{differential equation} \cref{eq:diff_eq} the state space description by introducing some state variables. In particular: 
+\begin{align}
+    x_1(t)=y(t) \quad
+    x_2(t)=\dot{y}(t) \quad
+\end{align}
+Here we assume \textbf{zero initial conditions} so that we can write\footnote{
+    Here the matrices of the state space description are: 
+    \begin{equation*}
+        A=\begin{bmatrix}
+            0&1\\
+            -\omega_n^2&-2\zeta\omega_n
+        \end{bmatrix}, \quad 
+        B=\begin{bmatrix}
+            0\\
+            k\omega_n^2
+        \end{bmatrix}, \quad 
+        C=[ 1 \quad 0]
+    \end{equation*}
+    Since they are not strictly necessary we put them here.
+}:
+\begin{equation*}
+    \begin{cases}
+        \dot{x_1}(t)=x_2(t)\\
+        \dot{x_2}(t)=-2\zeta\omega_n{x_2}(t)-\omega_n^2{x_1}(t)+k\omega_n^2{u(t)}\\
+        y=x_1
+    \end{cases} \Longrightarrow \quad \begin{cases}
+        \dot{x}(t)=Ax(t)+Bu(t)\\
+        y(t)=Cx(t)
+    \end{cases} 
+\end{equation*}
+In order to draw the block diagram we individuate the equation containing the $u(t)$ that is the input till reaching the output $y(t)$. The resulting block diagram is: 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{img/complex.jpg}
+    \caption{Block diagram of $G_p(s)$}
+\end{figure}
+\newpage
+\noindent
+This is the general form of the transfer function containing the complex conjugate poles, the single parameters must be substituted with their own uncertain description using one of the uncertainty sets.\\
+ This example is interesting since here there are repeated parameters, we can number with 1 the uncertainty related to the parameter $k$, 2 the uncertainty related to the damping factor $\zeta$, finally all the others are the uncertainty channels related to the natural frequency $\omega_n$. The resulting \texttt{deltaset} is
+ 
+ \begin{equation}
+    \texttt{deltaset}=[
+        -1,0; \
+        -1,0; \
+        -5,0
+    ]
+ \end{equation}\\
+
+\hrule
+\vspace{0.3em}
+\noindent
+\textsf{The description obtained so far by using the state space description is quite general, so that we could consider also the case of \textbf{non-zero} initial conditions. Clearly also the previous example would have been provided us with the possibility to follow the same appproach, however when simple manipulations can be algebraically done by using directly the transfer function it is more convient and fast.}
+
+\section{Robust stability with structured uncertainty}
+
+\section{Robust performance with structured stabiliy}
+
+\section{Structured singular value $\mu$}
+
+\section{$\mu$-analysis}
+
 
 \end{document}
