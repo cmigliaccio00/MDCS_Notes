@@ -328,12 +328,144 @@ This is the general form of the transfer function containing the complex conjuga
 \textsf{The description obtained so far by using the state space description is quite general, so that we could consider also the case of \textbf{non-zero} initial conditions. Clearly also the previous example would have been provided us with the possibility to follow the same appproach, however when simple manipulations can be algebraically done by using directly the transfer function it is more convient and fast.}
 
 \section{Robust stability with structured uncertainty}
+At this stage, since the controller is known, we can collapse the blocks $P$ and $G_c$ in a single block which we call $N$. The structure we obtain can be called $N-\Delta$. In this context $N$ contains all the known parts of the feedback control system: the controller, actuators and nominal plant, the weighting functions accounting for the performance requiremens, The figure ...\\
+This operation coincides with a \textit{upper linear fractional transformation (upper LFT)}, where we can write
+\begin{equation}
+    \begin{bmatrix}
+        z_\Delta\\
+        z_p
+    \end{bmatrix}=\begin{bmatrix}
+        N_{11}&N_{12}\\
+        N_{12}&N_{22}
+    \end{bmatrix}
+    \begin{bmatrix}
+        w_\Delta\\
+        w_p
+    \end{bmatrix}
+\end{equation}
+It can be prooved that ensuring robust stability for the $N-\Delta$ structure is equivalent to check that: 
+\begin{equation}\label{eq:RS_cond}
+    \det(I-N_{11}\Delta(j\omega))\ne0 \quad \forall \omega, \forall \Delta, \ \Vert \Delta \Vert_\infty<1
+\end{equation}
+where $N_{11}$ is the matrix tranfer function from $z_\Delta$ to $w_\Delta$.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.13]{img/NDelta.jpg}
+    \caption{$N-\Delta$ structure}
+\end{figure}
+
 
 \section{Robust performance with structured stabiliy}
+In the context of robust control, robust performance requirements can be expressed as: 
+\begin{equation}
+    \Vert F(s,\Delta) \Vert_\infty<1, \quad \forall\Delta, \quad
+    z_p=F(s,\Delta)w_p
+\end{equation}
+where $F(s,\Delta)$ is a given matrix transfer function accounting for the performance requirements. Such a functional $F$ can be written as: 
+\begin{equation}
+    F(s,\Delta)=\bigg\Vert
+        \begin{matrix}
+            W_S S(s,\Delta)\\
+            W_T T(s,\Delta)
+        \end{matrix}
+    \bigg\Vert 
+\end{equation}
+By using the properties of the LFT, can be shown that ensuring the robust performance in this case is equivalent to ensure the robust stability of the structure $N-\hat{\Delta}$ obtained by introducing a fictitious scalar complex uncertainty $\Delta_p$, which in turn is the same to require that:
+\begin{equation}\label{eq:RP_cond}
+    \det(I-N\Delta(j\omega))\ne 0 \quad \forall \omega, \forall \Delta
+\end{equation}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.13]{img/NDeltahat.jpg}
+    \caption{$N-\hat{\Delta}$ structure}
+\end{figure}
+Note that both conditions for robust stability and robust performance, come from the generalized Nyquist Criterion for MIMO systems.
+
 
 \section{Structured singular value $\mu$}
+The conditions in \Cref{eq:RS_cond} and \Cref{eq:RP_cond} we have just obtained are of little practical interest, since we cannot explore all the frequencies and all the uncertainties, just to prove that the system is robust! An alternative, more practical, approach is needed. In particular, it may be useful to start by substituing in the determinant expression a certain $\Delta$ and to decrement it gradually. In particular: 
+\begin{itemize}
+    \item \textbf{Checking Robust Stability} is equivalent to compute the \textit{smallest structured uncertainty} $\Delta$ such that 
+    \begin{equation}
+        \det(I-N_{11}\Delta(j\omega))=0, \forall \omega
+    \end{equation}
+    \item \textbf{Checking Robust Performance} is equivalent to find the \textit{smallest structured uncertainty $\hat{\Delta}$} such that the stability is destroyed, that is: 
+    \begin{equation}
+        \det(I-N\Delta(j\omega))=0, \forall \omega
+    \end{equation}
+\end{itemize}
+In particular, at the end of the day:
+\begin{itemize}
+    \item If the smallest uncertainty is less than one, then the robust stability/robust performance is \textbf{not fulfilled} since the stability is broken for an allowed value of $\Delta$. In other words given our uncertain plant there are some values of the allowed uncertainty for which the robust requirement is 'broken'.
+    \item If the smallest uncertainty is greater or equal than one, RS/RP is fulfilled, since such an uncertainty does not belong to the set of the allowed uncertainty.
+\end{itemize}
+
+\noindent
+Such aspects can be better formalized by introducing $k_m$ being the \underline{singulatity margin} and the definition of a novel tool which will provide us with the possibility to check in an effective way RS/RP. This leads to the definition of the \textbf{structured singular value $\mu$}, that for the structure $N$, namely, is defined as:
+
+\begin{equation}
+    \mu(N,j\omega)=\frac{1}{\min\{k_m\in\mathbb{R}: \ \det(I-N(j\omega)\Delta(j\omega))=0, \ \Vert \Delta \Vert_\infty < 1\}}
+\end{equation}
+Note that $\mu(N,j\omega)$ is a real non-negative function of $\omega$. 
 
 \section{$\mu$-analysis}
+We are are ready for give necessary and sufficient conditions for robust stability and robust performance in terms of $\mu$. Performing the \textbf{$\mu$-analysis} is the same to say that we are using the structured singular values in order to check Robust Stability/Robust Performance.
+
+\begin{multicols}{2}
+    \noindent\textsf{\textbf{ ROBUST STABILITY}}\\
+    Assume that $G_c$ stabilizes $N$, the $N-\Delta$ structure is robustly stable if and only if
+    \begin{equation}
+        \mu(N_{11}, j\omega) < 1 \quad \forall \omega 
+    \end{equation}
+    
+    \newcolumn
+    \noindent
+    \textsf{\textbf{ROBUST PERFORMANCE}}\\
+    Assume that $G_c$ stabilizes $N$ (provides internal stability), the following conditions are equivalent: 
+    \begin{itemize}
+        \itemsep-0.3em
+        \item $\Vert F(s,\Delta) \Vert_\infty < 1, \quad \Vert \Delta \Vert_\infty<1$
+        \item $\mu(N,j\omega)<1 \quad \forall \omega$ 
+    \end{itemize}
+\end{multicols}
+
+\subsection{$\mu_{ub}$, $\mu_{lb}$: bounds on the true $\mu$}
+The results we have just given are very nice, except for the fact that computing the structured singular value is an hard non-convex problem, this is the reason why, practically speaking only some numerical upper and lower bounds $\mu_{ub}, \ \mu_{lb}$ on the real $\mu$ can be computed.\\
+Since, mostly we are not going to compute the real value for $\mu$, you can imagine that the conditions on the \textit{bounds of the true $\mu$} are no more necessary and sufficient. In particular:
+
+\subsection{Sufficient conditions for robustness}
+\begin{align}
+    &\sup_\omega \mu_{ub}(N_{11},\omega) < 1 \ \Longrightarrow \textsf{Robust stability}\\
+    & \sup_\omega \mu_{ub}(N,\omega) < 1 \ \Longrightarrow \textsf{Robust performance}
+\end{align}
+This says us that if $\mu_{up}$ is less than one, RS/RP requirement is fulfilled, on the contrary if $\mu_{up}>1$ and $\mu_{lb}<1$ nothing can be said since the true $\mu$ might be greater than one, but also less than one.
+
+\subsection{Necessary conditions for robustness}
+\begin{align}
+    &\textsf{Robust stability} \ \Longrightarrow  \sup_\omega \mu_{lb}(N_{11},\omega) < 1\\
+    &  \textsf{Robust performance} \ \Longrightarrow \sup_\omega \mu_{lb}(N,\omega) < 1 
+\end{align}
+Note that if $\mu_{lb} > 1$, then RS/RP are not fulfilled since the condition on the lower bound is a necessary one.
+
+\subsection{Robust performance - Constraining $T$}
+
+\subsubsection{1st approach: structured description of the uncertainty}
+\subsubsection{2nd approach: unstructured description of the uncertainty}
+
+\subsection{Robust performance - Constraining $S$}
+\subsubsection{1st approach: structured description of the uncertainty}
+\subsubsection{2nd approach: unstructured description of the uncertainty}
+\subsubsection{3rd approach: using the exact $\mu$}
+
+\subsection{Robust stability: changing the PUIs}
+
+
+
+
+
 
 
 \end{document}
