@@ -6,6 +6,10 @@
 \usepackage{cleveref}
 \usepackage{booktabs} % To thicken table lines
 
+\usepackage{amsthm}
+\newtheorem*{remark}{Remark}
+\newtheorem*{result}{Result}
+
 \title{\textbf{Structured uncertainty and $\mu$-analysis}}
 
 
@@ -321,15 +325,15 @@ This is the general form of the transfer function containing the complex conjuga
         -5,0
     ]
  \end{equation}\\
-
+\vspace{-1cm}
 \hrule
 \vspace{0.3em}
 \noindent
 \textsf{The description obtained so far by using the state space description is quite general, so that we could consider also the case of \textbf{non-zero} initial conditions. Clearly also the previous example would have been provided us with the possibility to follow the same appproach, however when simple manipulations can be algebraically done by using directly the transfer function it is more convient and fast.}
 
-\section{Robust stability with structured uncertainty}
-At this stage, since the controller is known, we can collapse the blocks $P$ and $G_c$ in a single block which we call $N$. The structure we obtain can be called $N-\Delta$. In this context $N$ contains all the known parts of the feedback control system: the controller, actuators and nominal plant, the weighting functions accounting for the performance requiremens, The figure ...\\
-This operation coincides with a \textit{upper linear fractional transformation (upper LFT)}, where we can write
+\section{Robust stability (RS) with structured uncertainty}
+At this stage, since the controller is known, we can collapse the blocks $P$ and $G_c$ in a single one which we call $N$. Then, the structure we obtain can be called $N-\Delta$ (see \Cref{fig:NDelta}). In this context $N$ contains all the known parts of the feedback control system: the controller, actuators and nominal plant, the weighting functions accounting for the performance requirements.\\
+This operation coincides with an \textit{upper linear fractional transformation (upper LFT)}, where we can write
 \begin{equation}
     \begin{bmatrix}
         z_\Delta\\
@@ -347,23 +351,32 @@ It can be prooved that ensuring robust stability for the $N-\Delta$ structure is
 \begin{equation}\label{eq:RS_cond}
     \det(I-N_{11}\Delta(j\omega))\ne0 \quad \forall \omega, \forall \Delta, \ \Vert \Delta \Vert_\infty<1
 \end{equation}
-where $N_{11}$ is the matrix tranfer function from $z_\Delta$ to $w_\Delta$.
+where $N_{11}$ is the matrix tranfer function from $z_\Delta$ to $w_\Delta$. This equation comes from the generalized Nyquist stability criterion for MIMO systems. In this specific case such a condition is also called \textsf{determinant stability condition}. \emph{Note here that the performance channel are not involved.}
+
+\newpage
+\begin{multicols}{2}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.12]{img/NDelta.jpg}
+        \caption{$N-\Delta$ structure for RS}
+        \label{fig:NDelta}
+    \end{figure} 
+    \newcolumn
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.12]{img/NDeltahat.jpg}
+        \caption{$N-\hat{\Delta}$ structure for RP}
+    \end{figure}
+\end{multicols}
 
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.13]{img/NDelta.jpg}
-    \caption{$N-\Delta$ structure}
-\end{figure}
 
-
-\section{Robust performance with structured stabiliy}
+\section{Robust performance (RP) with structured uncertainty}
 In the context of robust control, robust performance requirements can be expressed as: 
 \begin{equation}
-    \Vert F(s,\Delta) \Vert_\infty<1, \quad \forall\Delta, \quad
-    z_p=F(s,\Delta)w_p
+    \Vert F(s,\Delta) \Vert_\infty<1, \quad \forall\Delta, 
 \end{equation}
-where $F(s,\Delta)$ is a given matrix transfer function accounting for the performance requirements. Such a functional $F$ can be written as: 
+where $F(s,\Delta)$ is a given matrix transfer function accounting for the performance requirements, moreover it holds that $z_p=F(s,\Delta)w_p$. Such a functional $F$ can be written as: 
 \begin{equation}
     F(s,\Delta)=\bigg\Vert
         \begin{matrix}
@@ -372,47 +385,46 @@ where $F(s,\Delta)$ is a given matrix transfer function accounting for the perfo
         \end{matrix}
     \bigg\Vert 
 \end{equation}
-By using the properties of the LFT, can be shown that ensuring the robust performance in this case is equivalent to ensure the robust stability of the structure $N-\hat{\Delta}$ obtained by introducing a fictitious scalar complex uncertainty $\Delta_p$, which in turn is the same to require that:
+Note that, differently from the case of \textit{nominal performances}, here the check is done on the original $S$ and $T$, the ones containing the uncertain plant instead of the nominal!
+By using the properties of the LFT, can be shown that ensuring the robust performance in this case is equivalent to ensure the robust stability of the structure $N-\hat{\Delta}$ obtained by introducing a fictitious scalar complex uncertainty $\Delta_p$, which, in turn, is the same to require that:
 \begin{equation}\label{eq:RP_cond}
     \det(I-N\Delta(j\omega))\ne 0 \quad \forall \omega, \forall \Delta
 \end{equation}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.13]{img/NDeltahat.jpg}
-    \caption{$N-\hat{\Delta}$ structure}
-\end{figure}
-Note that both conditions for robust stability and robust performance, come from the generalized Nyquist Criterion for MIMO systems.
+Even in this case the \textit{determinant stability condition} derived from the generalized Nyquist Criterion is used.
 
 
-\section{Structured singular value $\mu$}
-The conditions in \Cref{eq:RS_cond} and \Cref{eq:RP_cond} we have just obtained are of little practical interest, since we cannot explore all the frequencies and all the uncertainties, just to prove that the system is robust! An alternative, more practical, approach is needed. In particular, it may be useful to start by substituing in the determinant expression a certain $\Delta$ and to decrement it gradually. In particular: 
+\section{A tool to check robustness: structured singular value $\mu$}
+The conditions in \Cref{eq:RS_cond} and \Cref{eq:RP_cond} we have just obtained are of little practical interest, since \textit{we cannot explore all the frequencies and all the uncertainties}, just to prove that the system is robust! An alternative, more practical, approach is needed. In particular, it may be useful to start by substituing in the determinant expression a certain $\Delta$ and to decrement it gradually. In particular: 
 \begin{itemize}
-    \item \textbf{Checking Robust Stability} is equivalent to compute the \textit{smallest structured uncertainty} $\Delta$ such that 
+    \itemsep-0.3em
+    \item \textbf{Checking RS} is equivalent to compute the \textit{smallest structured uncertainty} $\Delta$ such that 
     \begin{equation}
         \det(I-N_{11}\Delta(j\omega))=0, \forall \omega
     \end{equation}
-    \item \textbf{Checking Robust Performance} is equivalent to find the \textit{smallest structured uncertainty $\hat{\Delta}$} such that the stability is destroyed, that is: 
+    \item \textbf{Checking RP} is equivalent to find the \textit{smallest structured uncertainty $\Delta$} such that the stability is destroyed, that is: 
     \begin{equation}
         \det(I-N\Delta(j\omega))=0, \forall \omega
     \end{equation}
 \end{itemize}
 In particular, at the end of the day:
 \begin{itemize}
-    \item If the smallest uncertainty is less than one, then the robust stability/robust performance is \textbf{not fulfilled} since the stability is broken for an allowed value of $\Delta$. In other words given our uncertain plant there are some values of the allowed uncertainty for which the robust requirement is 'broken'.
+    \item If the smallest uncertainty is less than one, then the robust stability/robust performance is \textbf{not fulfilled} since the stability is broken for an allowed value of $\Delta$. In other words given our uncertain plant there are some values of the allowed uncertainty for which the robust requirement is 'destroyed'.
     \item If the smallest uncertainty is greater or equal than one, RS/RP is fulfilled, since such an uncertainty does not belong to the set of the allowed uncertainty.
 \end{itemize}
 
 \noindent
-Such aspects can be better formalized by introducing $k_m$ being the \underline{singulatity margin} and the definition of a novel tool which will provide us with the possibility to check in an effective way RS/RP. This leads to the definition of the \textbf{structured singular value $\mu$}, that for the structure $N$, namely, is defined as:
+Such aspects can be better formalized by introducing: (i) a real scalar $k_m$ being the \textbf{singulatity margin}; (ii) the definition of a novel tool which will provide us with the possibility to check in an effective way RS/RP. This leads to the definition of the \textbf{structured singular value $\mu$}, that for the structure $N$, namely, is defined as:
 
 \begin{equation}
+    \large
     \mu(N,j\omega)=\frac{1}{\min\{k_m\in\mathbb{R}: \ \det(I-N(j\omega)\Delta(j\omega))=0, \ \Vert \Delta \Vert_\infty < 1\}}
 \end{equation}
-Note that $\mu(N,j\omega)$ is a real non-negative function of $\omega$. 
+Note that $\mu(N,j\omega)$ is a real non-negative function of $\omega$, moreover since we take the inverse of the margin, robustness properties are guaranteed by the $\mu$ if such a value is, frequency by frequency, less than one.\\
+Summarizing, here starting from the results related the determinant stability condition, we have introduced a tool by which we can check RS and RP in a systematic way.
 
 \section{$\mu$-analysis}
-We are are ready for give necessary and sufficient conditions for robust stability and robust performance in terms of $\mu$. Performing the \textbf{$\mu$-analysis} is the same to say that we are using the structured singular values in order to check Robust Stability/Robust Performance.
+We are are ready for give \textbf{necessary and sufficient} conditions for robust stability and robust performance in terms of $\mu$.\\
+ Performing the \textbf{$\mu$-analysis} is the same to say that we are using the structured singular values in order to check Robust Stability/Robust Performance.
 
 \begin{multicols}{2}
     \noindent\textsf{\textbf{ ROBUST STABILITY}}\\
@@ -432,39 +444,229 @@ We are are ready for give necessary and sufficient conditions for robust stabili
     \end{itemize}
 \end{multicols}
 
-\subsection{$\mu_{ub}$, $\mu_{lb}$: bounds on the true $\mu$}
-The results we have just given are very nice, except for the fact that computing the structured singular value is an hard non-convex problem, this is the reason why, practically speaking only some numerical upper and lower bounds $\mu_{ub}, \ \mu_{lb}$ on the real $\mu$ can be computed.\\
-Since, mostly we are not going to compute the real value for $\mu$, you can imagine that the conditions on the \textit{bounds of the true $\mu$} are no more necessary and sufficient. In particular:
+\subsection{Tackling the complexity: $\mu_{ub}$, $\mu_{lb}$ bounds on the true $\mu$}
+The results we have just given are very nice, except for the fact that computing the structured singular values is an \textbf{hard non-convex problem}, this is the reason why, practically speaking only some numerical upper and lower bounds $\mu_{ub}, \ \mu_{lb}$ on the real $\mu$ can be computed. IOn the contrary, computing such bounds results in a \textbf{convex optimization problem}.\\
+Since, mostly we are not going to compute the real value for $\mu$, you can imagine that the conditions on the \textit{bounds of the true $\mu$} are no more necessary and sufficient.
 
 \subsection{Sufficient conditions for robustness}
-\begin{align}
-    &\sup_\omega \mu_{ub}(N_{11},\omega) < 1 \ \Longrightarrow \textsf{Robust stability}\\
-    & \sup_\omega \mu_{ub}(N,\omega) < 1 \ \Longrightarrow \textsf{Robust performance}
-\end{align}
+\begin{equation}
+    \begin{cases}
+        \underset{\omega}{\sup} \ \mu_{ub}(N_{11},\omega) < 1& \Longrightarrow \quad \textsf{ROBUST STABILITY}\\
+        \underset{\omega}{\sup} \  \mu_{ub}(N,\omega) < 1 & \Longrightarrow \quad \textsf{ROBUST PERFORMANCE}
+    \end{cases}
+\end{equation}
 This says us that if $\mu_{up}$ is less than one, RS/RP requirement is fulfilled, on the contrary if $\mu_{up}>1$ and $\mu_{lb}<1$ nothing can be said since the true $\mu$ might be greater than one, but also less than one.
 
 \subsection{Necessary conditions for robustness}
-\begin{align}
-    &\textsf{Robust stability} \ \Longrightarrow  \sup_\omega \mu_{lb}(N_{11},\omega) < 1\\
-    &  \textsf{Robust performance} \ \Longrightarrow \sup_\omega \mu_{lb}(N,\omega) < 1 
-\end{align}
-Note that if $\mu_{lb} > 1$, then RS/RP are not fulfilled since the condition on the lower bound is a necessary one.
+\begin{equation}
+    \begin{cases}
+        \textsf{ROBUST STABILITY} & \Longrightarrow  \quad
+        \underset{\omega}{\sup} \ \mu_{lb}(N_{11},\omega) < 1\\
+        \textsf{ROBUST PERFORMANCE} & \Longrightarrow \quad
+        \underset{\omega}{\sup} \ \mu_{lb}(N,\omega) < 1 
+    \end{cases}
+\end{equation}
+Note that if $\mu_{lb} > 1$, then RS/RP are not fulfilled since the condition on the lower bound is a necessary one. The \Cref{tab:RSRP} summarizes all of these aspects.
 
-\subsection{Robust performance - Constraining $T$}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{p{6cm} p{6cm} p{4cm}}
+        \bottomrule[2pt]
+        \textbf{ROBUST PERFORMANCE}& $\underset{\omega}{\sup} \ \mu_{ub}(N,j\omega)<1$& \textsf{fulfilled}\\
+        & $\underset{\omega}{\sup} \ \mu_{lb}(N,j\omega)>1$ & \textsf{not fulfilled}\\
+        & $\begin{cases}
+            \underset{\omega}{\sup} \ \mu_{ub}(N,j\omega)>1\\
+            \underset{\omega}{\sup} \ \mu_{lb}(N,j\omega)<1
+        \end{cases}$ & \textsf{nothing can be said}\\
+        \midrule[1pt]
+        \textbf{ROBUST STABILITY}& $\underset{\omega}{\sup} \ \mu_{ub}(N_{11},j\omega)<1$&\textsf{fulfilled}\\
+        & $\underset{\omega}{\sup} \ \mu_{lb}(N_{11},j\omega)>1$ & \textsf{not fulfilled}\\
+        & $\begin{cases}
+            \underset{\omega}{\sup} \ \mu_{ub}(N_{11},j\omega)>1\\
+            \underset{\omega}{\sup} \ \mu_{lb}(N_{11},j\omega)<1
+        \end{cases}$ & \textsf{nothing can be said}\\
+        \bottomrule[2pt]
+    \end{tabular}
+    \caption{RP and RS checking by using $\mu_{lb}$ and $\mu_{ub}$}
+    \label{tab:RSRP}
+\end{table}
+
+\vspace{-0.3cm}
+    \noindent
+    \textsf{At this point, we have all the ingredients in order to properly perform the $\mu$-analysis using upper and lower bounds on the real $\mu$. One important remark is that, in the case of RP, \textbf{one requirement at a time} must be checked. For example if we have to check performance requirements on different sinusoidal disturbances you have to perform the steps for $\mu$-analysis we are going to describe, considering them as 'separated'.
+    }
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{p{5cm} p{5cm} p{3cm} p{3cm}}
+        \midrule[1.5pt]
+        \textbf{Requirement}&\textbf{Constraint}&\textbf{Weight}&\textbf{Freq. range}\\
+        \midrule
+        $\vert e_{d_s}^\infty \vert \le \rho_s$, $d_s=a_s\sin(\omega_s{t})$&$\vert T(j\omega) \vert \le M_T^{HF} \ \forall \omega \ge \omega_s^{-}$&$W_{T\mu}=\frac{1}{M_T^{HF}}$&$[\omega_s,100\omega_s]$\\
+        \midrule
+        $\vert e_{d_p}^\infty \vert \le \rho_p$, $d_p=a_p\sin(\omega_p{t})$&$\vert S(j\omega) \vert \le M_S^{LF} \ \forall \omega \le \omega_p^{+}$&$W_{S\mu}=\frac{1}{M_S^{LF}}$&$[0.01\omega_p,\omega_p]$\\
+        \midrule
+        $\vert e_r^\infty \vert \le \rho_r$, $r(t)=\frac{R_0}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{r} \ \omega \to 0$&$W_{S\mu}=s^{\nu+p} \cdot k_{r}$&$[10^{-5},10^{-1}]$\\
+        \midrule
+        $\vert e_{d_a}^\infty \vert \le \rho_a$, $d_a(t)=\frac{D_{a0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_a} \ \omega \to 0$&$W_{S\mu}=s^{\nu+p} \cdot k_{d_a}$&$[10^{-5},10^{-1}]$\\
+        \midrule
+        $\vert e_{d_p}^\infty \vert \le \rho_p$, $d_p(t)=\frac{D_{p0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_p} \ \omega \to 0$&$W_{S\mu}=s^{\nu+p} \cdot k_{d_p}$&$[10^{-5},10^{-1}]$
+    \end{tabular}
+    \caption{Guidelines for choosing the frequency range and weights on performances}
+    \label{tab:guideline}
+\end{table}
+
+\newpage
+\subsection{Robust performance - Constraining $T(s,\Delta)$}
+Here two approaches to check robust performances on requirements constraining $T$ are presented. The first approach is the one using a \textbf{structured description} of the uncertainty, on the contrary the second approach is using the \textbf{unstructured} description of the uncertainty. Before entering into more details, keep in mind that by using this new technique we want to answer the following question:
+\begin{center}
+    \textbf{Is the complementary sensitivity function $T(s,\Delta)$ of our feedback control system satisfying a given requirement for 
+    all of the realization of the uncertain plant $G_p$?}
+\end{center}
 
 \subsubsection{1st approach: structured description of the uncertainty}
-\subsubsection{2nd approach: unstructured description of the uncertainty}
+\begin{enumerate}
+    \itemsep-0.2em
+    \item Build a new weighting function $W_{T\mu}$ (see \Cref{tab:guideline}) which only accounts for the requirement to check (this is a different weighting function, not the one has been built during the requirements translation); here $W_{T\mu}T$ is the transfer function between $w_p$ and $z_p$; 
+    \item Build the \textit{generalized model} $N-\hat{\Delta}$ with the additional fictitious $\Delta_p$ uncertainty (eventually by pencil and paper)
+    \item Accordingly to the previous point build a simulink scheme with input and output port properly numbered
+    \item Compute the bounds\footnote{
+        If the plots of the bounds on $\mu$ are very close, almost coincident, this is telling us that they are very close to the real $\mu$.
+    } on $\mu(N,j\omega)$ in a range of frequency suitably chosen (see \Cref{tab:guideline}) and use \Cref{tab:RSRP} in order to draw conclusions on robustness.
+\end{enumerate}
 
-\subsection{Robust performance - Constraining $S$}
-\subsubsection{1st approach: structured description of the uncertainty}
+\subsubsection{Example}
+\noindent
+In the following there is an example of simulink scheme, all of the input/output ports related to the $\hat{\Delta}$ block are highlighted. The uncertain plant this scheme is related to is given: 
+\begin{equation}
+    G_p(s)=\frac{10^6{K}}{s^2+ps}, \quad 0.8\le{K}\le{1.2}; \quad
+    420\le{p}\le{580}
+\end{equation}
+\vspace{-1cm}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{img/EsNDeltaHat.jpg}
+    \caption{Example: Simulink scheme of the $N$ structure}
+\end{figure}
+
+\noindent
+The block diagonal matrix $\hat{\Delta}$ and the related describing \texttt{deltaset} array are:
+\begin{equation*}
+    \hat{\Delta}=\begin{bmatrix}
+        {\color{orange}\Delta_p}&0&0\\
+        0&{\color{red}\Delta_1}&0\\
+        0&0&{\color{blue}\Delta_2}
+    \end{bmatrix}, \quad 
+    \texttt{deltaset}=[1,1; \ -1,0; \ -1,0];
+\end{equation*}
+where there is one complex uncertainty $\Delta_p$ and a couple of real uncertainties $\Delta_1$, $\Delta_2$.
+
 \subsubsection{2nd approach: unstructured description of the uncertainty}
+The only difference characterizing this alternative approach is that the scheme of $N$ contains a \textit{conservative} description of the uncertain plant $G_p(s)$ which uses (for example) the  \textit{multiplicative uncertainty} where it is described as belonging to the set
+\begin{equation}
+    M_m=\{
+        G_p=G_{pn}(1+W_u\Delta), \ \Vert \Delta \Vert_\infty \le 1
+    \}
+\end{equation}
+Finally, in the simulink scheme you have to replace the exact description of the plant with the different sources of uncertainty with a system with a \textbf{single complex scalar source}. Matrix $\hat{\Delta}$ and related \texttt{deltaset}, supposing that the position of the performance channel is unchanged, are: 
+\begin{equation*}
+    \hat{\Delta}=\begin{bmatrix}
+        \Delta_p&0\\
+        0&\Delta
+    \end{bmatrix}, \quad
+    \texttt{deltaset}=[1, 1; \ 1,1 ]
+\end{equation*}
+
+\noindent
+\begin{remark}
+    Also in this case the last step is to use the \Cref{tab:RSRP}. However, since the description of the plant $G_p(s)$ is a conservative one, whether robustness is not fulfilled with such a conservative description, nothing can be said and you must follow the first appproach! Otherwise, if robustness is fulfilled we can stop here our analysis because for sure the $N$ containing the exact description of the uncertainty will provide analog results. 
+\end{remark}
+
+
+\subsection{Robust performance - Constraining $S(s,\Delta)$}
+What about requirements constraining $S$? As far as the first two approaches are concerned, analog steps must be followed. Again, performing the $\mu$-analysis for this type of requirements is giving us the answer to the question:
+\begin{center}
+    \textbf{Is the sensitivity function $S(s,\Delta)$ of our feedback control system satisfying a given requirement for 
+    all of the realization of the uncertain plant $G_p$?}
+\end{center}
+
+\subsubsection{1st approach: structured description of the uncertainty}
+The only difference with respect to the case of $T$ is that here the weighting function must be chosen is $W_{S\mu}$ and the picking point is changing. A structured description of the uncertainty is considered in the $N$ Simulink scheme.
+\subsubsection{2nd approach: unstructured description of the uncertainty}
+All unchanged except the description of the uncertain $G_p(s)$ which in this case is an \textit{unstructured} one. If the results of such an analysis are negative, the first approach must be used that is the best and most complete one.
+
 \subsubsection{3rd approach: using the exact $\mu$}
+This is a variant of the second approach, exploiting an important result: 
+
+\begin{result}
+When the uncertain plant is described in an unstructured fashion and the considered performance requirement is only providing constraints on $S(s,\Delta)$, the (exact) structured singular value $\mu(N,j\omega)$ can be computed as
+\begin{equation}
+    \mu(N,j\omega)=\big\vert \vert W_{S\mu}S_n\vert + \vert W_u T_n \vert \big\vert
+\end{equation}
+\end{result}
+\noindent
+Now, how to use this obtained function? 
+\begin{equation*}
+    \max_{\omega} \mu(N,j\omega) < 1 \Longrightarrow \textbf{Robust performance fulfilled}
+\end{equation*}
+Wheter such a condition is fulfilled, this is a very fast way to performing $\mu$-analysis on such requirements. However, if this is not the case, since the result is using a conservative description of the uncertainty, also in this case the first approach must be employed.
+
+
 
 \subsection{Robust stability: changing the PUIs}
+Till now, we have discussed $\mu$-analysis for checking robust performance. \textbf{What about Robust Stability?}
+In this framework, the controller $G_c(s)$ is already designed with the objective of obtaining both Robust Stability and Nominal Performance fulfilled. \\
+Then, given the description of the plant with the parameter uncertainty intervals (PUIs) a suitably designed weighting function $W_u$ is used, in order to check RS. At this point, it is not very interesting performing $\mu$-analysis using the original PUIs on which the $\mathcal{H}_\infty$ synthesis has been carried out: you are going to obtain a \textit{tautology}!\\
 
+\noindent
+Indeed, from a practical point of view, what is interesting is performing $\mu$-analysis on a \textbf{given range of frequencies using different intervals for the parameters}. The response of this procedure will be wheter the controller  is providing stability   for all the plants in the set generated by the new provided uncertainty intervals\footnote{
+    It is remarkable, that this technique is also useful when you design the controller on a nominal plant, also using a different control design method (eg. Loop-shaping), and you want to know if such a controller provides stability when given parameters are ranging in certain intervals.
+}. Also in this case there are two alternative approaches. 
 
+\subsubsection{1st approach: defining the $N_{11}$ block}
+Here the detailed structured description for the plant and for the entire FCS with related uncertainty is designed. What is changed are: (i) the nominal plant $G_{pn}$; (ii) the radius of the  parameters $W_{p}$ where $p$ indicates generically an uncertain parameter. Note that the extraction of $N_{11}$ starting from the Simulink scheme of $N$ is straightforward! The only thing is need is the performance channels $z_p,\ w_p$ removal. \\
+Don't loose ourself: no new weighting function is designed at this stage, since we are checking stability, not performance! At the end of the analysis the \Cref{tab:RSRP} can be used.
 
+\subsubsection{2nd approach: defining a new weighting function $W_u^{\text{new}}$}
+This approach is time consuming, but still valid to check Robust Stability on a different uncertainty set. This concerns the design of a new weighting function $W_u^{\text{new}}$ using the newly provided PUIs, following the same guidelines we used during the controller design: we are seeking for a function $W_u^{\text{new}}$ that covers as tight as possible the cloud of curves representing the uncertainty set (eg. multiplicative).\\
+After having built such a function the following condition must be checked: 
+\begin{equation}
+    \Vert W_u^{\text{new}} T_n \Vert_\infty < 1 \iff 
+    \vert W_u^{-1,\text{new}}(j\omega) \vert > \vert T_n (j\omega)\vert \ \  \forall \omega
+\end{equation}
 
+\subsection{\textsc{Matlab} commands for $\mu$-analysis}
+Whatever is the requirement for which you want to check RS/RP, the following \textsc{Matlab} commands (in the order they are described) must be used: 
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{p{0.5cm} p{7cm} p{8cm}}
+        \textbf{\#}&\textbf{Command}&\textbf{Description}\\
+        \midrule[1.5pt]
+        1&\texttt{[AN,BN,CN,DN]=linmod('N\_scheme')}&{Retrieves the state-space description of $N$ from the simulink model.}\\
+        \midrule
+        2&\texttt{Ns=minreal(zpk(ss(AN,BN,CN,DN)))}&{In order to make all the simplifications after numerical computations.}\\
+        3&\texttt{[AN,BN,CN,DN]=ssdata(Ns)}&\\
+        \midrule
+        4&\texttt{N=pck(AN,BN,CN,DN)}&{Packs the information on $N$ in a way which is suitable for the $\mu$-toolbox.}\\
+        \midrule
+        5&\texttt{omega=logspace(low, down, \#points)}&{Builds the frequency range for which the computation on $\mu$ bounds is carried out.}\\
+        \midrule
+        6&\texttt{Nf=frsp(N,omega)}&{Computes the frequency response of $N$ for the indicated omega range}\\
+        \midrule
+        7&\texttt{deltaset=[...;...;...]}&{Array describing the diagonal block matrix $\Delta$ or $\hat{\Delta}$} (according to the type of check we are doing)\\
+        \midrule
+        8&\texttt{[mubnds,d,s,p]=mu(Nf,deltaset)}&{Gives for the provided omega the values for lower and upper bounds. For further details see \texttt{help mu}}\\
+        \midrule
+        9&\texttt{vplot('liv,lm', mubnds)}&{Plots using log-scales the functions $\mu_{ub}(N,\omega)$ and $\mu_{lb}(N,\omega)$ }
+        
+    \end{tabular}
+    \caption{\textsc{Matlab} commands for $\mu$-analysis}
+    \label{tab:mu_commands}
+\end{table}
+
+\subsubsection{On the choice of \texttt{\#points} for \texttt{logspace}}
+There is not a rule to choose the parameter \texttt{\#points} of the 5$^{th}$ command of the \Cref{tab:mu_commands}, however you can decide to improve the analysis in a given range of frequencies if you note that for example the value of one of the two bounds is very close to the threshold given by $1$. In that case an increased number of points in the specific range in which this occur can be useful in order to draw conclusions in the correct way.
 
 
 
