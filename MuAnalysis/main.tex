@@ -332,7 +332,7 @@ This is the general form of the transfer function containing the complex conjuga
 \textsf{The description obtained so far by using the state space description is quite general, so that we could consider also the case of \textbf{non-zero} initial conditions. Clearly also the previous example would have been provided us with the possibility to follow the same appproach, however when simple manipulations can be algebraically done by using directly the transfer function it is more convient and fast.}
 
 \section{Robust stability (RS) with structured uncertainty}
-At this stage, since the controller is known, we can collapse the blocks $P$ and $G_c$ in a single one which we call $N$. Then, the structure we obtain can be called $N-\Delta$ (see \Cref{fig:NDelta}). In this context $N$ contains all the known parts of the feedback control system: the controller, actuators and nominal plant, the weighting functions accounting for the performance requirements.\\
+At this stage, since the controller is known, we can collapse the blocks $P$ and $G_c$ in a single one which we call $N$. Then, the structure we obtain can be called $N-\Delta$ (see \Cref{fig:NDelta}). In this context $N$ contains all the \textbf{known parts} of the feedback control system: the controller, actuators and nominal plant, the weighting functions accounting for the performance requirements.\\
 This operation coincides with an \textit{upper linear fractional transformation (upper LFT)}, where we can write
 \begin{equation}
     \begin{bmatrix}
@@ -406,7 +406,7 @@ The conditions in \Cref{eq:RS_cond} and \Cref{eq:RP_cond} we have just obtained 
         \det(I-N\Delta(j\omega))=0, \forall \omega
     \end{equation}
 \end{itemize}
-In particular, at the end of the day:
+At the end of the day:
 \begin{itemize}
     \item If the smallest uncertainty is less than one, then the robust stability/robust performance is \textbf{not fulfilled} since the stability is broken for an allowed value of $\Delta$. In other words given our uncertain plant there are some values of the allowed uncertainty for which the robust requirement is 'destroyed'.
     \item If the smallest uncertainty is greater or equal than one, RS/RP is fulfilled, since such an uncertainty does not belong to the set of the allowed uncertainty.
@@ -419,7 +419,7 @@ Such aspects can be better formalized by introducing: (i) a real scalar $k_m$ be
     \large
     \mu(N,j\omega)=\frac{1}{\min\{k_m\in\mathbb{R}: \ \det(I-N(j\omega)\Delta(j\omega))=0, \ \Vert \Delta \Vert_\infty < 1\}}
 \end{equation}
-Note that $\mu(N,j\omega)$ is a real non-negative function of $\omega$, moreover since we take the inverse of the margin, robustness properties are guaranteed by the $\mu$ if such a value is, frequency by frequency, less than one.\\
+Note that $\mu(N,j\omega)$ is a real non-negative function of $\omega$, moreover since we take the inverse of the $k_m$ margin, robustness properties are guaranteed by the $\mu$ if such a value is, frequency by frequency, less than one.\\
 Summarizing, here starting from the results related the determinant stability condition, we have introduced a tool by which we can check RS and RP in a systematic way.
 
 \section{$\mu$-analysis}
@@ -439,13 +439,13 @@ We are are ready for give \textbf{necessary and sufficient} conditions for robus
     Assume that $G_c$ stabilizes $N$ (provides internal stability), the following conditions are equivalent: 
     \begin{itemize}
         \itemsep-0.3em
-        \item $\Vert F(s,\Delta) \Vert_\infty < 1, \quad \Vert \Delta \Vert_\infty<1$
+        \item $\Vert F(s,\Delta) \Vert_\infty < 1, \quad \Vert \Delta \Vert_\infty<1$  \ \textsf{(RP)}
         \item $\mu(N,j\omega)<1 \quad \forall \omega$ 
     \end{itemize}
 \end{multicols}
 
 \subsection{Tackling the complexity: $\mu_{ub}$, $\mu_{lb}$ bounds on the true $\mu$}
-The results we have just given are very nice, except for the fact that computing the structured singular values is an \textbf{hard non-convex problem}, this is the reason why, practically speaking only some numerical upper and lower bounds $\mu_{ub}, \ \mu_{lb}$ on the real $\mu$ can be computed. IOn the contrary, computing such bounds results in a \textbf{convex optimization problem}.\\
+The results we have just given are very nice, except for the fact that computing the structured singular values is an \textbf{hard non-convex problem}, this is the reason why, practically speaking only some numerical upper and lower bounds $\mu_{ub}, \ \mu_{lb}$ on the real $\mu$ can be computed. On the contrary, computing such bounds results in a \textbf{convex optimization problem}.\\
 Since, mostly we are not going to compute the real value for $\mu$, you can imagine that the conditions on the \textit{bounds of the true $\mu$} are no more necessary and sufficient.
 
 \subsection{Sufficient conditions for robustness}
@@ -506,11 +506,11 @@ Note that if $\mu_{lb} > 1$, then RS/RP are not fulfilled since the condition on
         \midrule
         $\vert e_{d_p}^\infty \vert \le \rho_p$, $d_p=a_p\sin(\omega_p{t})$&$\vert S(j\omega) \vert \le M_S^{LF} \ \forall \omega \le \omega_p^{+}$&$W_{S\mu}=\frac{1}{M_S^{LF}}$&$[0.01\omega_p,\omega_p]$\\
         \midrule
-        $\vert e_r^\infty \vert \le \rho_r$, $r(t)=\frac{R_0}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{r} \ \omega \to 0$&$W_{S\mu}=s^{\nu+p} \cdot k_{r}$&$[10^{-5},10^{-1}]$\\
+        $\vert e_r^\infty \vert \le \rho_r$, $r(t)=\frac{R_0}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{r} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}=s^{\nu_0+p} \cdot k_{r}$&$[10^{-5},10^{-1}]$\\
         \midrule
-        $\vert e_{d_a}^\infty \vert \le \rho_a$, $d_a(t)=\frac{D_{a0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_a} \ \omega \to 0$&$W_{S\mu}=s^{\nu+p} \cdot k_{d_a}$&$[10^{-5},10^{-1}]$\\
+        $\vert e_{d_a}^\infty \vert \le \rho_a$, $d_a(t)=\frac{D_{a0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_a} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}=s^{\nu_0+p} \cdot k_{d_a}$&$[10^{-5},10^{-1}]$\\
         \midrule
-        $\vert e_{d_p}^\infty \vert \le \rho_p$, $d_p(t)=\frac{D_{p0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_p} \ \omega \to 0$&$W_{S\mu}=s^{\nu+p} \cdot k_{d_p}$&$[10^{-5},10^{-1}]$
+        $\vert e_{d_p}^\infty \vert \le \rho_p$, $d_p(t)=\frac{D_{p0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_p} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}=s^{\nu_0+p} \cdot k_{d_p}$&$[10^{-5},10^{-1}]$
     \end{tabular}
     \caption{Guidelines for choosing the frequency range and weights on performances}
     \label{tab:guideline}
@@ -624,11 +624,11 @@ Indeed, from a practical point of view, what is interesting is performing $\mu$-
 }. Also in this case there are two alternative approaches. 
 
 \subsubsection{1st approach: defining the $N_{11}$ block}
-Here the detailed structured description for the plant and for the entire FCS with related uncertainty is designed. What is changed are: (i) the nominal plant $G_{pn}$; (ii) the radius of the  parameters $W_{p}$ where $p$ indicates generically an uncertain parameter. Note that the extraction of $N_{11}$ starting from the Simulink scheme of $N$ is straightforward! The only thing is need is the performance channels $z_p,\ w_p$ removal. \\
+Here the detailed structured description for the plant and for the entire FCS with related uncertainty is designed. What is changed are: (i) the nominal plant $G_{pn}$; (ii) the radius of the  parameters $W_{p}$ where $p$ indicates generically an uncertain parameter. Note that the extraction of $N_{11}$ starting from the Simulink scheme of $N$ is straightforward! The only thing is needed is the performance channels $z_p,\ w_p$ removal. \\
 Don't loose ourself: no new weighting function is designed at this stage, since we are checking stability, not performance! At the end of the analysis the \Cref{tab:RSRP} can be used.
 
 \subsubsection{2nd approach: defining a new weighting function $W_u^{\text{new}}$}
-This approach is time consuming, but still valid to check Robust Stability on a different uncertainty set. This concerns the design of a new weighting function $W_u^{\text{new}}$ using the newly provided PUIs, following the same guidelines we used during the controller design: we are seeking for a function $W_u^{\text{new}}$ that covers as tight as possible the cloud of curves representing the uncertainty set (eg. multiplicative).\\
+This approach is time consuming, but still valid to check Robust Stability on a different uncertainty set. This concerns with the design of a new weighting function $W_u^{\text{new}}$ using the newly provided PUIs, following the same guidelines we used during the controller design: we are seeking for a function $W_u^{\text{new}}$ that covers as tight as possible the cloud of curves representing the uncertainty set (eg. multiplicative).\\
 After having built such a function the following condition must be checked: 
 \begin{equation}
     \Vert W_u^{\text{new}} T_n \Vert_\infty < 1 \iff 
