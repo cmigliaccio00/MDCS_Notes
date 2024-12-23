@@ -310,7 +310,7 @@ In order to draw the block diagram we individuate the equation containing the $u
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.3]{img/complex.jpg}
+    \includegraphics[scale=0.3]{img/complex_conj_plant.jpeg}
     \caption{Block diagram of $G_p(s)$}
 \end{figure}
 \newpage
@@ -322,7 +322,7 @@ This is the general form of the transfer function containing the complex conjuga
     \texttt{deltaset}=[
         -1,0; \
         -1,0; \
-        -5,0
+        -2,0
     ]
  \end{equation}\\
 \vspace{-1cm}
@@ -650,7 +650,7 @@ Whatever is the requirement for which you want to check RS/RP, the following \te
         \midrule
         4&\texttt{N=pck(AN,BN,CN,DN)}&{Packs the information on $N$ in a way which is suitable for the $\mu$-toolbox.}\\
         \midrule
-        5&\texttt{omega=logspace(low, down, \#points)}&{Builds the frequency range for which the computation on $\mu$ bounds is carried out.}\\
+        5&\texttt{omega=logspace(low, down, \#points)}&{Builds the frequency range for which the computation on $\mu$ bounds is carried out. Good choice: \#points=1000}\\
         \midrule
         6&\texttt{Nf=frsp(N,omega)}&{Computes the frequency response of $N$ for the indicated omega range}\\
         \midrule
