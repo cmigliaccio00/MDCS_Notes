@@ -265,19 +265,21 @@
         \caption{Transfer functions cloud and $W_U(s)$}
     \end{figure}
 
-    \section{Weighting function modifications for $\mathcal{H}_\infty$ approach}
-
+    \newpage
+    \section{Weighting functions modification for $\mathcal{H}_\infty$ LMI approach}
+    In order to use the LMI approach to solve the optimization problem for obtaining the controller, the generalized plant $M$ must be stable. Some modifications on $W_1$ and $W_2$ must be done.
     \subsection{Modify $W_1$}
     \begin{equation}
         W_{1,mod}=W_1\frac{s^{\nu+p}}{(s+\lambda^*)^{\nu+p}}, 
         \quad \lambda^*=0.01\cdot\omega_c
     \end{equation}
-
+    where $\omega_c$ is an allowed value for the crossover frequency according to the constraints derived from the requirements. The poles in $\lambda^*$ can be put in the controller from the optimizer.
+ 
     \subsection{Modify $W_2$}
     \begin{equation}
         W_{2,mod}=\frac{1}{T_{po}}
     \end{equation}
-    where $T_{po}$ is the peak retrieved during the requirements translation of $\hat{s}$. After you use \texttt{linmod}, you append the zeros through the command \texttt{sderiv(M,<channel>, [1/wnt 1])}.
+    where $T_{po}$ is the peak retrieved during the requirements translation of $\hat{s}$. After you use \texttt{linmod}, you append the zeros through the command \texttt{sderiv(M,<channel>, [1/p 1])}. The reason why you use real zeros instead of complex-conjugate ones is that, often, for numerical reason the presence of those poles in the weighting functions leads to sub-optimal solutions to the optimization problem.
 
 
  
