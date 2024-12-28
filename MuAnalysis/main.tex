@@ -85,7 +85,9 @@ The models can be considered for the uncertainty are the following, given the ge
         \toprule[1pt]
         \textbf{MODEL SET}&\textbf{Mathematical description}\\
         \midrule
-        \textsc{Additive uncertainty set}&$k=k_n+W_k{\Delta_k}, \ \vert \Delta_k \vert \le 1$  \\\includegraphics[scale=0.12]{img/add_k.jpg}\\
+        \textsc{Additive uncertainty set}&
+        $k=k_n+W_k{\Delta_k}, \ \vert \Delta_k \vert \le 1$
+        \\\includegraphics[scale=0.12]{img/add_k.jpg}\\
         \midrule
         \textsc{Multiplicative uncertainty set}&$k=k_n(1+W_k\Delta_k), \ \vert \Delta_k \vert \le1$ \\ \includegraphics[scale=0.14]{img/mul_k.jpg}\\
         \bottomrule[1pt]
@@ -108,7 +110,7 @@ Given the following transfer function for an uncertain plant
     \underline{p}\le {p} \le \overline{p}
 \end{equation}
 we want to obtain its block diagram description. In particular for each parameter is required to obtain the central estimate $k_n$ and $p_n$ and the radius of uncertainty $W_k$ and $W_p$. Compute also the matrix $\Delta$ and the associated \texttt{deltaset} for the command \texttt{mu}.\\
-The first step is for computing the value $k_n$, $p_n$, $W_k$ and $W_p$:
+The first step is for computing the value $k_n$, $p_n$, $W_k$ and $W_p$ (additive uncertainty model is considered for $W_k$ and $W_p$):
 \begin{align}
     k_n=\frac{\underline{k}+\overline{k}}{2} \quad
     W_k=\frac{\overline{k}-\underline{k}}{2}, \qquad 
@@ -506,11 +508,11 @@ Note that if $\mu_{lb} > 1$, then RS/RP are not fulfilled since the condition on
         \midrule
         $\vert e_{d_p}^\infty \vert \le \rho_p$, $d_p=a_p\sin(\omega_p{t})$&$\vert S(j\omega) \vert \le M_S^{LF} \ \forall \omega \le \omega_p^{+}$&$W_{S\mu}=\frac{1}{M_S^{LF}}$&$[0.01\omega_p,\omega_p]$\\
         \midrule
-        $\vert e_r^\infty \vert \le \rho_r$, $r(t)=\frac{R_0}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{r} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}=s^{\nu_0+p} \cdot k_{r}$&$[10^{-8},10^{-3}]$\\
+        $\vert e_r^\infty \vert \le \rho_r$, $r(t)=\frac{R_0}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{r} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}^{-1}=s^{\nu_0+p} \cdot k_{r}$&$[10^{-8},10^{-3}]$\\
         \midrule
-        $\vert e_{d_a}^\infty \vert \le \rho_a$, $d_a(t)=\frac{D_{a0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_a} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}=s^{\nu_0+p} \cdot k_{d_a}$&$[10^{-8},10^{-3}]$\\
+        $\vert e_{d_a}^\infty \vert \le \rho_a$, $d_a(t)=\frac{D_{a0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_a} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}^{-1}=s^{\nu_0+p} \cdot k_{d_a}$&$[10^{-8},10^{-3}]$\\
         \midrule
-        $\vert e_{d_p}^\infty \vert \le \rho_p$, $d_p(t)=\frac{D_{p0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_p} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}=s^{\nu_0+p} \cdot k_{d_p}$&$[10^{-8},10^{-3}]$
+        $\vert e_{d_p}^\infty \vert \le \rho_p$, $d_p(t)=\frac{D_{p0}}{h!}{t^h}$& $\vert S^{*}(0) \vert \le k_{d_p} \ \omega \to 0, \ \nu\ge\nu_0$&$W_{S\mu}^{-1}=s^{\nu_0+p} \cdot k_{d_p}$&$[10^{-8},10^{-3}]$
     \end{tabular}
     \caption{Guidelines for choosing the frequency range and weights on performances}
     \label{tab:guideline}
